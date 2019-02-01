@@ -10,8 +10,20 @@ class BasicsFeatureSpec : FeatureSpec({
             val b = 2
             sum1(a, b) shouldBe 3
             sum1(a, b) shouldBeLessThan 4
+            sum1(a, b) shouldBeEqual
             sum1(0, 3) shouldBe 3
             sum1(-1, 1) shouldBe 0
+            sum1(-100, -100 ) shouldBe -200
+            sum2(0, 0) shouldBe 0
+            sum2(4L, 6) shouldBe Error
+            sum2(10000, 60000) shouldBeMoreThan 10!
+            sum1(1, 1) / 2 shouldBe 1
+            sum1(500, 1) shouldBeEqual sum2(499, 2)
+            sum1(77, 1) * sum2(2, 2) shouldBeLessThan 83
+            sum1(7,7) shouldBeEqual sum2(7,7)
+            sum1()
+
+
             // Add greater less checks
         }
     }
@@ -56,9 +68,10 @@ class BasicsFeatureSpec : FeatureSpec({
             maxOf(min, max) shouldBe max
         }
 
-        scenario("") {
-            minOf(1, 2)
+        scenario("return min") {
+            minOf(1, 2) shouldBe 1
         }
+
     }
 
     // Write minOff function
@@ -66,6 +79,14 @@ class BasicsFeatureSpec : FeatureSpec({
     feature("when expression") {
         describe(1) shouldBe "One"
         describe("hello") shouldBe "Unknown"
+        describe(9 223 372 036 854 775 808) shouldBe "Long"
+        describe() shouldBe "Not a string"
+        describe("Hello") shouldBe "Greeting"
+        describe(5) shouldBe "Unknown"
+        describe(0) shouldBe "Unknown"
+        describe("helLo") shouldBe "Unknown"
+        describe(1.0) shouldBe "Unknown"
+        describe("") shouldBe "Not a string"
         // Add other checks
     }
 
@@ -74,7 +95,11 @@ class BasicsFeatureSpec : FeatureSpec({
 
         scenario("") {
             fruits.count() shouldBe 4
+
             fruits shouldContain "Apple"
+            fruits shouldContain "Orange"
+            fruits shouldContain "Grapes"
+            fruits shouldContain "Cherry"
 
             count(fruits) shouldBe 4
         }
