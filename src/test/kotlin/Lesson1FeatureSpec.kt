@@ -200,12 +200,13 @@ fun toMapofList(firstList: listOf<String>) : mapOf<String, Int> {
 
 open class Engineer(var name: String, var department: String) {}
 
-class QA() : Engineer {
+class QA(name: String, department: String) : Engineer {
     fun releaseTesting(var releasedate: Int, releasedfunction: listOf()) : Boolean {
-        if (releasedfunction.size * 2 > realeasedate)
+        if (releasedfunction.size * 2 > realeasedate) {
             return false
-        else
+        } else {
             return true
+        }
     }
 }
 
