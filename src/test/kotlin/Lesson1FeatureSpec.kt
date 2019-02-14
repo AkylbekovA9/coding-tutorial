@@ -70,10 +70,25 @@ class BasicsFeatureSpec : FeatureSpec({
 
         scenario("return min") {
             minOf(1, 2) shouldBe 1
+            minOf(0, 4) shouldBe 0
+            minOf(-5, -800) shouldBe -800
+            minOf(36, -36) shouldBe -36
+            minOf(1, 1) shouldBe 1
+            minOf(-1, -1) shouldBe -1
+            minOf()
         }
 
-    }
+        scenario("return min") {   //vararg
+            minOf(1, 2, 3, -1) shouldBe -1
+            minOf(10, 0.2, 3) shouldBe 0.2
+            minOf(1, 2, 3, -1) shouldBe -1
+            minOf(1, 2, 3, -1, 5000, 4599000, 54.2, 88, 0) shouldBe -1
+            minOf()
 
+        }
+
+
+    }
     // Write minOff function
 
     feature("when expression") {
@@ -104,7 +119,22 @@ class BasicsFeatureSpec : FeatureSpec({
             count(fruits) shouldBe 4
         }
     }
-})
+
+    feature("collections") {
+        val fruits = arrayListOf("Apple", "Orange", "Apple", "Orange") firstMap shouldContain ("Apple" to 2, "Orange" to 2)
+        val fruits = arrayListOf("Apple") firstMap shouldContain ("Apple" to 1)
+        val fruits = arrayListOf("Apple", "Orange", "Juice", "Banana") firstMap shouldContain ("Apple" to 1, "Orange" to 1, "Juice" to 1, "Banana" to 1)
+        val fruits = arrayListOf("Apple", "Orange", "Orange", "Orange") firstMap shouldContain ("Apple" to 1, "Orange" to 3)
+    }
+
+    feature("classes") {
+        val releasedfunction = arrayListOf("registration”, “redesign”, “addButton")
+        val releasedate = 3/1
+        releaseTesting(releasedate, releasedfunction) shouldBe True
+        releaseTesting(releasedate, releasedfunction) shouldBe False
+
+
+    }
 
 fun sum1(a: Int, b: Int): Int {
     return a + b
@@ -135,3 +165,51 @@ fun count(list: ArrayList<String>): Int {
     }
     return counter
 }
+
+
+//Функция minOf
+fun minOf(var n: Int, var m: Int) : Int = if (n >= m) m else n
+
+//Функция minOf() с vararg
+fun minOf2(vararg n: Int) : Int {
+    var min = -1 000 000
+    for (i in n) {
+        if (min > n) min = n
+    }
+    return min
+}
+
+
+//List() to Map() with count of "it"
+
+fun countofFruits(fruits: listOf<String>, fruit: String): Int {
+    var sum = 0
+    for (i in 0..fruits.size) {
+        if (fruit == fruits[i])
+           sum ++
+    }
+   return sum
+}
+
+fun toMapofList(firstList: listOf<String>) : mapOf<String, Int> {
+    return firstList.associate { it to countofFruits(firstList, it) }
+}
+
+
+//class Engineer and class QA
+
+open class Engineer(var name: String, var department: String) {}
+
+class QA() : Engineer {
+    fun releaseTesting(var releasedate: Int, releasedfunction: listOf()) : Boolean {
+        if (releasedfunction.size * 2 > realeasedate)
+            return false
+        else
+            return true
+    }
+}
+
+}
+
+
+
