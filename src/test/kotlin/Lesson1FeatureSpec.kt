@@ -1,7 +1,9 @@
 import arrow.core.Eval.Companion.False
 import arrow.core.Eval.Companion.True
+import com.github.javafaker.Bool
 import io.kotlintest.matchers.collections.shouldContain
 import io.kotlintest.matchers.numerics.*
+import io.kotlintest.should
 import io.kotlintest.shouldBe
 import io.kotlintest.specs.FeatureSpec
 
@@ -114,20 +116,29 @@ class BasicsFeatureSpec : FeatureSpec({
     }
 
     feature("collections") {
-        toMapofList("Apple", "Orange", "Apple", "Orange") firstMap shouldBe ("Apple" to 2, "Orange" to 2)
-        toMapofList("Apple") firstMap shouldBe ("Apple" to 1)
-        toMapofList("Apple", "Orange", "Juice", "Banana") firstMap shouldBe ("Apple" to 1, "Orange" to 1, "Juice" to 1, "Banana" to 1)
-        toMapofList("Apple", "Orange", "Orange", "Orange") firstMap shouldBe ("Apple" to 1, "Orange" to 3)
+        val list1 = listOf("Apple", "Orange", "Apple", "Orange")
+        val list2 = listOf("Apple")
+        val list3 = listOf("Apple", "Orange", "Juice", "Banana")
+        val list4 = listOf("Apple", "Orange", "Orange", "Orange")
+        val list5 = listOf("")
+
+        val myMap1 = toMapOfList(list1) shouldBe ("Apple" to 2, "Orange" to 2)
+        val myMap2 = toMapOfList(list2) shouldBe ("Apple" to 1)
+        val myMap3 = toMapOfList(list3) shouldBe ("Apple" to 1, "Orange" to 1, "Juice" to 1, "Banana" to 1)
+        val myMap4 = toMapOfList(list4) shouldBe ("Apple" to 1, "Orange" to 3)
+        val myMap5 = toMapOfList(list5) shouldBe ("")
     }
 
     feature("classes") {
         val list1 = arrayListOf("registration”, “redesign”, “addButton")
         val list2 = arrayListOf("registration”, “redesign”, “addButton", "addtextButton", "addTextView")
-        releaseTesting(3, list1) shouldBe True
-        releaseTesting(1, list1) shouldBe False
-        releaseTesting(5, list2) shouldBe True
-        releaseTesting(2, list2) shouldBe False
-        releaseTesting(1, list2) shouldBe True
+        val secondQA = QA("name", "Department")
+
+        secondQA.releaseTesting(3, list1) shouldBe True
+        secondQA.releaseTesting(1, list1) shouldBe False
+        secondQA.releaseTesting(5, list2) shouldBe True
+        secondQA.releaseTesting(2, list2) shouldBe False
+        secondQA.releaseTesting(1, list2) shouldBe True
     }
 })
 
@@ -175,7 +186,7 @@ fun minOf_vararg(vararg numbers: Int) {
 
 
 //-----------------------------------------------------------------------------------List() to Map() with count of "it"
-fun countofFruits(fruits: ArrayList<String>, fruit: String): Int {
+fun countofFruits(fruits: List<String>, fruit: String): Int {
     var sum = 0
     for (i in 0..fruits.size) {
         if (fruit == fruits[i])
@@ -183,7 +194,8 @@ fun countofFruits(fruits: ArrayList<String>, fruit: String): Int {
     }
     return sum
 }
-fun toMapofList(firstList: ArrayList<String>) : mapOf<String, Int> {
+fun toMapOfList(firstList: List<String>) : Map<String, Int>{
+    //write loop
     return firstList.associate { it to countofFruits(firstList, it) }
 }
 
@@ -192,7 +204,7 @@ fun toMapofList(firstList: ArrayList<String>) : mapOf<String, Int> {
 //-------------------------------------------------------------------------------------class Engineer and class QA
 open class Engineer(var name: String, var department: String) {}
 
-class QA(name: String, department: String) : Engineer (name, department){
+class QA(name: String, department: String) : Engineer (name, department) {
     fun releaseTesting(releasedate: Int, releasedfunction: ArrayList<String>) : Boolean {
         if (releasedfunction.size * 2 > releasedate) {
             return false
@@ -202,5 +214,30 @@ class QA(name: String, department: String) : Engineer (name, department){
     }
 }
 
+//-----------------------------------------------------------------------------------------------isStringSymbols unique
+fun isUnique(str: String): Boolean {
+    for (i in 0..str.length) {
+        if (str[i] == str[i + 1])
+            return false
+    }
+    return true
+}
 
+/*
+fun isUnique2(str2: String): Boolean {
+    var count = 0
+    for (s in 0..str2.length) {
+        for (element in 0..str2.length) {
+            if (s == element) count++
+            if (count > 1) return false
+        }
+    }
+    return true
+}
+*/
 
+fun sameStr(s1 : String, s2: String) : Boolean {
+    if (s1.length != s2.length) return false
+    s1.ifEmpty { return false }
+    s2.ifEmpty { return false }
+}
