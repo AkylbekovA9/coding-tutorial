@@ -216,28 +216,36 @@ class QA(name: String, department: String) : Engineer (name, department) {
 
 //-----------------------------------------------------------------------------------------------isStringSymbols unique
 fun isUnique(str: String): Boolean {
-    for (i in 0..str.length) {
-        if (str[i] == str[i + 1])
-            return false
-    }
-    return true
-}
-//---------------------------------------------------------------------------------------------isStringSymbols unique_2
-/*
-fun isUnique2(str2: String): Boolean {
-    var count = 0
-    for (s in 0..str2.length) {
-        for (element in 0..str2.length) {
-            if (s == element) count++
-            if (count > 1) return false
+    if (str.length == 1) return true
+    for (s in 0..str.length) {
+        for (element in s + 1..str.length) {
+            if(str[s] == str[element])
+                return false
         }
     }
     return true
 }
-*/
 
-fun sameStr(s1 : String, s2: String) : Boolean {
-    if (s1.length != s2.length) return false
-    s1.ifEmpty { return false }
-    s2.ifEmpty { return false }
+
+//-------------------------------------------------------------------------------------------------------two string
+fun sameStr(str: String, rotationStr: String) : Boolean {
+
+    if (str.length != rotationStr.length) return false
+    str.ifEmpty { return false }
+    rotationStr.ifEmpty { return false }
+
+    var s1: String = ""
+    var s2: String = ""
+    if (str.length == rotationStr.length) {
+        for (i in 0..str.length) {
+            if (str[i] != rotationStr[i]) {
+                s1 = s1 + str[i]
+            }
+            else {
+                s2 = s2 + rotationStr[i]
+            }
+        }
+        if (s1.slice(s2) == str || s2.slice(s1) == str) return true
+        else return false
+    }
 }
