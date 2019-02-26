@@ -222,7 +222,7 @@ fun isUnique(str: String): Boolean {
     }
     return true
 }
-
+//---------------------------------------------------------------------------------------------isStringSymbols unique_2
 /*
 fun isUnique2(str2: String): Boolean {
     var count = 0
