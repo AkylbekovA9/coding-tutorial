@@ -104,6 +104,8 @@ class BasicsFeatureSpec : FeatureSpec({
 
     feature("collections") {
         val fruits = arrayListOf("Apple", "Orange", "Grapes", "Cherry")
+        val fruits2 = arrayListOf("Banana", "Apricot", "Fig", "Kiwi", "Mango", "Melon")
+        val fruits3 = arrayListOf("Avocado")
 
         scenario("") {
             fruits.count() shouldBe 4
@@ -113,32 +115,96 @@ class BasicsFeatureSpec : FeatureSpec({
             fruits shouldContain "Cherry"
             count(fruits) shouldBe 4
         }
+        scenario("") {
+            fruits.count() shouldBe 6
+            fruits shouldContain "Banana"
+            fruits shouldContain "Apricot"
+            fruits shouldContain "Fig"
+            fruits shouldContain "Kiwi"
+            fruits shouldContain "Mango"
+            fruits shouldContain "Melon"
+            count(fruits) shouldBe 6
+        }
+        scenario("") {
+            fruits.count() shouldBe 1
+            fruits shouldContain "Avocado"
+            count(fruits) shouldBe 1
+        }
     }
 
     feature("collections") {
-        val list1 = listOf("Apple", "Orange", "Apple", "Orange")
-        val list2 = listOf("Apple")
-        val list3 = listOf("Apple", "Orange", "Juice", "Banana")
-        val list4 = listOf("Apple", "Orange", "Orange", "Orange")
-        val list5 = listOf("")
-
-        val myMap1 = toMapOfList(list1) shouldBe ("Apple" to 2, "Orange" to 2)
-        val myMap2 = toMapOfList(list2) shouldBe ("Apple" to 1)
-        val myMap3 = toMapOfList(list3) shouldBe ("Apple" to 1, "Orange" to 1, "Juice" to 1, "Banana" to 1)
-        val myMap4 = toMapOfList(list4) shouldBe ("Apple" to 1, "Orange" to 3)
-        val myMap5 = toMapOfList(list5) shouldBe ("")
+        scenario("") {
+            val list1 = listOf("Apple", "Orange", "Apple", "Orange")
+            val myMap1 = toMapOfList(list1) shouldBe ("Apple" to 2, "Orange" to 2)
+        }
+        scenario("") {
+            val list2 = listOf("Apple")
+            val myMap2 = toMapOfList(list2) shouldBe ("Apple" to 1)
+        }
+        scenario(""){
+            val list3 = listOf("Apple", "Orange", "Juice", "Banana")
+            val myMap3 = toMapOfList(list3) shouldBe ("Apple" to 1, "Orange" to 1, "Juice" to 1, "Banana" to 1)
+        }
+        scenario(""){
+            val list4 = listOf("Apple", "Orange", "Orange", "Orange")
+            val myMap4 = toMapOfList(list4) shouldBe ("Apple" to 1, "Orange" to 3)
+        }
+        scenario(""){
+            val list5 = listOf("")
+            val myMap5 = toMapOfList(list5) shouldBe ("")
+        }
     }
 
     feature("classes") {
-        val list1 = arrayListOf("registration”, “redesign”, “addButton")
-        val list2 = arrayListOf("registration”, “redesign”, “addButton", "addtextButton", "addTextView")
-        val secondQA = QA("name", "Department")
+        scenario("class QA extends class Engineer") {
+            val list1 = arrayListOf("registration”, “redesign”, “addButton")
+            val list2 = arrayListOf("registration”, “redesign”, “addButton", "addtextButton", "addTextView")
+            val secondQA = QA("name", "Department")
 
-        secondQA.releaseTesting(3, list1) shouldBe True
-        secondQA.releaseTesting(1, list1) shouldBe False
-        secondQA.releaseTesting(5, list2) shouldBe True
-        secondQA.releaseTesting(2, list2) shouldBe False
-        secondQA.releaseTesting(1, list2) shouldBe True
+            secondQA.releaseTesting(3, list1) shouldBe True
+            secondQA.releaseTesting(1, list1) shouldBe False
+            secondQA.releaseTesting(5, list2) shouldBe True
+            secondQA.releaseTesting(2, list2) shouldBe False
+            secondQA.releaseTesting(1, list2) shouldBe True
+        }
+    }
+
+    feature("String") {
+        scenario("Unique String") {
+            val str1 = "abcde"
+            isUnique(str1) shouldBe True
+            val str2 = "AbcAv"
+            isUnique(str2) shouldBe False
+            val str3 = "abcABC"
+            isUnique(str3) shouldBe False
+            val str4 = "12345"
+            isUnique(str4) shouldBe True
+            val str5 = "012ABCDER.!$%"
+            isUnique(str5) shouldBe True
+        }
+    }
+
+    feature("Rotation String") {
+        scenario("") {
+            val str = "abcd"
+            val rStr = "cdab"
+            sameStr(str, rStr) shouldBe True
+            val str1 = "abcderfrgt"
+            val rStr1 = "cdab"
+            sameStr(str, rStr) shouldBe False
+            val str2 = ""
+            val rStr2 = ""
+            sameStr(str, rStr) shouldBe False
+            val str3 = "ABCABC"
+            val rStr3 = "BCABCA"
+            sameStr(str, rStr) shouldBe True
+            val str4 = "abC"
+            val rStr4 = "cAB"
+            sameStr(str, rStr) shouldBe False
+            val str5 = "abC"
+            val rStr5 = "CAB"
+            sameStr(str, rStr) shouldBe False
+        }
     }
 })
 
@@ -195,7 +261,6 @@ fun countofFruits(fruits: List<String>, fruit: String): Int {
     return sum
 }
 fun toMapOfList(firstList: List<String>) : Map<String, Int>{
-    //write loop
     return firstList.associate { it to countofFruits(firstList, it) }
 }
 
@@ -245,7 +310,9 @@ fun sameStr(str: String, rotationStr: String) : Boolean {
                 s2 = s2 + rotationStr[i]
             }
         }
-        if (s1.slice(s2) == str || s2.slice(s1) == str) return true
-        else return false
+        if (s1.plus(s2) == str || s2.plus(s1) == str)
+            return true
+        else
+            return false
     }
 }
