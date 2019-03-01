@@ -14,19 +14,46 @@ class BasicsFeatureSpec : FeatureSpec({
             val b = 2
             sum1(a, b) shouldBe 3
             sum1(a, b) shouldBeLessThan 4
+        }
+        scenario("") {
             sum1(0, 3) shouldBe 3
+            sum1(0, 3) shouldBeGreaterThan 4
+            sum1(0, 3)shouldBeLessThan 4
+        }
+        scenario("") {
             sum1(-1, 1) shouldBe 0
-            sum1(0, 3) shouldBe 3
-            sum1(-1, 1) shouldBe 0
+            sum1(-1, 1) shouldBeGreaterThanOrEqual 1
+            sum1(-1, 1)shouldBeLessThan 2
+        }
+        scenario("") {
             sum1(-100, -100 ) shouldBe -200
+            sum1(-100, -100) shouldBeGreaterThan -201
+            sum1(-100, -100) shouldBeLessThan -199
+        }
+        scenario("") {
             sum2(0, 0) shouldBe 0
-            sum2(10000, 60000) shouldBeGreaterThan  10
+            sum1(0, 0) shouldBeGreaterThan -1
+            sum1(0, 0) shouldBeLessThan 1
+        }
+        scenario("") {
+            sum2(10000, 60000) shouldBe 70000
+            sum1(10000, 60000) shouldBeGreaterThan 69999
+            sum1(10000, 60000) shouldBeLessThan 70001
+        }
+        scenario("") {
             sum1(1, 1) / 2 shouldBe 1
-            sum1(500, 1) shouldBeGreaterThanOrEqual sum2(499, 1)
-            sum1(500,10) shouldBeLessThanOrEqual sum2(1000, 1)
-            sum1(10, 10) shouldBeGreaterThanOrEqual  sum2(10, 10)
-            sum1(9, 9) shouldBeGreaterThan sum2(8, 8)
-            // Add greater less checks
+            sum1(1, 1) shouldBeGreaterThan 1
+            sum1(1, 1) shouldBeLessThan 3
+        }
+        scenario("") {
+            sum1(500, 1) shouldBeGreaterThanOrEqual sum2(499, 2)
+            sum1(500, 1) shouldBeGreaterThan 500
+            sum1(500, 1) shouldBeLessThan 500
+        }
+        scenario("") {
+            sum1(10, 10) shouldBeGreaterThanOrEqual  sum2(8, 1)
+            sum1(10, 10) shouldBeGreaterThan 19
+            sum1(10, 10) shouldBeLessThan 21
         }
     }
 
@@ -87,19 +114,20 @@ class BasicsFeatureSpec : FeatureSpec({
     // Write minOff function
 
     feature("when expression") {
-        describe(1) shouldBe "One"
-        describe("hello") shouldBe "Unknown"
-        describe(1) shouldBe "One"
-        describe("hello") shouldBe "Unknown"
-        describe("9223372036854775808") shouldBe "Long"
-        describe(44) shouldBe "Not a string"
-        describe("Hello") shouldBe "Greeting"
-        describe(5) shouldBe "Unknown"
-        describe(0) shouldBe "Unknown"
-        describe("helLo") shouldBe "Unknown"
-        describe(1.0) shouldBe "Unknown"
-        describe("") shouldBe "Not a string"
-        // Add other checks
+        scenario("") {
+            describe(1) shouldBe "One"
+            describe("hello") shouldBe "Unknown"
+            describe(1) shouldBe "One"
+            describe("hello") shouldBe "Unknown"
+            describe("9223372036854775808") shouldBe "Long"
+            describe(44) shouldBe "Not a string"
+            describe("Hello") shouldBe "Greeting"
+            describe(5) shouldBe "Unknown"
+            describe(0) shouldBe "Unknown"
+            describe("helLo") shouldBe "Unknown"
+            describe(1.0) shouldBe "Unknown"
+            describe("") shouldBe "Not a string"
+        }
     }
 
     feature("collections") {
@@ -135,7 +163,7 @@ class BasicsFeatureSpec : FeatureSpec({
     feature("collections") {
         scenario("") {
             val list1 = listOf("Apple", "Orange", "Apple", "Orange")
-            val myMap1 = toMapOfList(list1) shouldBe ("Apple" to 2, "Orange" to 2)
+            val myMap1 = toMapOfList(list1) shouldBe mapOf("Apple" to 2, "Orange" to 2)
         }
         scenario("") {
             val list2 = listOf("Apple")
@@ -143,11 +171,11 @@ class BasicsFeatureSpec : FeatureSpec({
         }
         scenario(""){
             val list3 = listOf("Apple", "Orange", "Juice", "Banana")
-            val myMap3 = toMapOfList(list3) shouldBe ("Apple" to 1, "Orange" to 1, "Juice" to 1, "Banana" to 1)
+            val myMap3 = toMapOfList(list3) shouldBe mapOf("Apple" to 1, "Orange" to 1, "Juice" to 1, "Banana" to 1)
         }
         scenario(""){
             val list4 = listOf("Apple", "Orange", "Orange", "Orange")
-            val myMap4 = toMapOfList(list4) shouldBe ("Apple" to 1, "Orange" to 3)
+            val myMap4 = toMapOfList(list4) shouldBe mapOf("Apple" to 1, "Orange" to 3)
         }
         scenario(""){
             val list5 = listOf("")
@@ -291,6 +319,17 @@ fun isUnique(str: String): Boolean {
     return true
 }
 
+/*
+fun isUnique(str: String) : Boolean {
+    var str2: HashSet<String> = hashSetOf(str)
+    if (str2.size == str.length) {
+        return true
+    }
+    else
+        return true
+}
+
+*/
 
 //-------------------------------------------------------------------------------------------------------two string
 fun sameStr(str: String, rotationStr: String) : Boolean {
@@ -303,9 +342,7 @@ fun sameStr(str: String, rotationStr: String) : Boolean {
     var s2: String = ""
     if (str.length == rotationStr.length) {
         for (i in 0..str.length) {
-            if (str[i] != rotationStr[i]) {
-                s1 = s1 + str[i]
-            }
+            if (str[i] != rotationStr[i]) s1 = s1 + str[i]
             else {
                 s2 = s2 + rotationStr[i]
             }
